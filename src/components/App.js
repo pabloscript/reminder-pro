@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { addReminder } from '../actions';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import TextField from 'material-ui/TextField';
@@ -14,8 +17,26 @@ const style = {
     margin: 12
 };
 
-export default class App extends React.Component {
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            text: ''
+        }
+    }
+
+    handleChange(event) {
+        this.setState({
+            text: event.target.value
+        });
+    }
+
+    addReminder() {        
+        this.props.addReminder(this.state.text);
+    }
+
     render() {
+        console.log('this.props', this.props);
         return(
             <div style={ containerStyle }>
                 <MuiThemeProvider>
@@ -30,6 +51,7 @@ export default class App extends React.Component {
                         floatingLabelText="New Task"
                         floatingLabelFixed={ true }
                         style={ style }
+                        onChange={this.handleChange.bind(this)}
                     />
                     <br />
                     <DatePicker
@@ -38,10 +60,23 @@ export default class App extends React.Component {
                         style={ style }
                     />
                     <br />
-                    <RaisedButton label="Add reminder" primary={ true } style={ style } />
+                    <RaisedButton 
+                        label="Add reminder" 
+                        primary={ true } 
+                        style={ style } 
+                        onClick={this.addReminder.bind(this)}
+                    />
                 </MuiThemeProvider>
             </div>
             
         )
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        reminders: state
+    }
+}
+
+export default connect(mapStateToProps, {addReminder})(App);
