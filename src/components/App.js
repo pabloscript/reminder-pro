@@ -9,7 +9,7 @@ import DatePicker from 'material-ui/DatePicker';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import { List, ListItem } from 'material-ui/List';
-import Checkbox from 'material-ui/Checkbox';
+// import Checkbox from 'material-ui/Checkbox';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 
 const styles = {
@@ -45,9 +45,8 @@ class App extends React.Component {
         this.props.addReminder(this.state.text);
     }
 
-    deleteReminder(id) {
-        console.log('deleting in application', id);
-        console.log('this.props', this.props);
+    deleteReminder(id) {        
+        this.props.deleteReminder(id);
     }
 
     renderReminders() {
@@ -87,6 +86,7 @@ class App extends React.Component {
                         floatingLabelText="New Task"
                         floatingLabelFixed={ true }
                         style={ styles.fields }
+                        fullWidth={true}
                         onChange={this.handleChange.bind(this)}
                     />
                     <br />
@@ -104,8 +104,7 @@ class App extends React.Component {
                     />
                     { this.renderReminders() }
                 </MuiThemeProvider>
-            </div>
-            
+            </div>            
         )
     }
 }
