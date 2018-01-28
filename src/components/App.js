@@ -8,13 +8,23 @@ import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui/DatePicker';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const containerStyle = {
-    margin: 'auto',
-    width: '80%'    
-};
+import { List, ListItem } from 'material-ui/List';
+import Checkbox from 'material-ui/Checkbox';
+import ActionDelete from 'material-ui/svg-icons/action/delete';
 
-const style = {    
-    margin: 12
+const styles = {
+    containerStyle: {
+        margin: 'auto',
+        width: '80%'
+    },
+    fields: {
+        margin: 12
+    },
+    list: {
+        fontFamily: 'Roboto',
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
 };
 
 class App extends React.Component {
@@ -35,37 +45,59 @@ class App extends React.Component {
         this.props.addReminder(this.state.text);
     }
 
-    render() {
-        console.log('this.props', this.props);
+    renderReminders() {
+        const { reminders } = this.props;
+        return (
+            <div style={ styles.list }>
+                <List>                    
+                    {
+                        reminders.map(reminder => {
+                            return (                                
+                                <ListItem 
+                                    key={reminder.id} 
+                                    primaryText={reminder.text} 
+                                    leftCheckbox={ <Checkbox /> } 
+                                    rightIcon={ <ActionDelete /> }
+                                />                                
+                            )
+                        })
+                    }
+                </List>
+            </div>
+        )
+    }
+
+    render() {        
         return(
-            <div style={ containerStyle }>
+            <div style={ styles.containerStyle }>
                 <MuiThemeProvider>
                     <AppBar
                         title="Reminder Pro"
                         iconClassNameRight="muidocs-icon-navigation-expand-more"
-                        style={ style }
+                        style={ styles.fields }
                     />
                     <br />
                     <TextField
                         hintText="I have to..."
                         floatingLabelText="New Task"
                         floatingLabelFixed={ true }
-                        style={ style }
+                        style={ styles.fields }
                         onChange={this.handleChange.bind(this)}
                     />
                     <br />
                     <DatePicker
                         hintText="Set due date"
                         container="inline"
-                        style={ style }
+                        style={ styles.fields }
                     />
-                    <br />
+                    <br />                    
                     <RaisedButton 
                         label="Add reminder" 
                         primary={ true } 
-                        style={ style } 
+                        style={ styles.fields } 
                         onClick={this.addReminder.bind(this)}
                     />
+                    { this.renderReminders() }
                 </MuiThemeProvider>
             </div>
             
