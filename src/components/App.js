@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addReminder } from '../actions';
+import { addReminder, deleteReminder } from '../actions';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
@@ -39,10 +39,15 @@ class App extends React.Component {
         this.setState({
             text: event.target.value
         });
-    }
+    }   
 
     addReminder() {        
         this.props.addReminder(this.state.text);
+    }
+
+    deleteReminder(id) {
+        console.log('deleting in application', id);
+        console.log('this.props', this.props);
     }
 
     renderReminders() {
@@ -56,8 +61,8 @@ class App extends React.Component {
                                 <ListItem 
                                     key={reminder.id} 
                                     primaryText={reminder.text} 
-                                    leftCheckbox={ <Checkbox /> } 
-                                    rightIcon={ <ActionDelete /> }
+                                    // leftCheckbox={ <Checkbox /> } 
+                                    rightIcon={ <ActionDelete onClick={ () => this.deleteReminder(reminder.id) } /> }
                                 />                                
                             )
                         })
@@ -111,4 +116,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {addReminder})(App);
+export default connect(mapStateToProps, { addReminder, deleteReminder })(App);
