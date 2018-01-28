@@ -6,13 +6,13 @@ import DatePicker from 'material-ui/DatePicker';
 import RaisedButton from 'material-ui/RaisedButton';
 
 const containerStyle = {
-    width: '50%'    
+    margin: 'auto',
+    width: '80%'    
 };
 
 const style = {    
     margin: 12
 };
-
 
 export default class App extends React.Component {
     render() {
